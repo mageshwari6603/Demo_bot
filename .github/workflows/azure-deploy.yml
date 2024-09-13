@@ -16,7 +16,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.12.4'
+        python-version: '3.10'  # Using a stable and supported Python version
 
     - name: Install dependencies
       run: |
@@ -24,12 +24,12 @@ jobs:
         pip install -r requirements.txt
 
     - name: Archive Flask app
-      run: zip -r main.zip .
+      run: |
+        zip -r main.zip . -x "*.git*"
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'aitestingdemoebms'  # Replace with your Azure App Service name
-        slot-name: 'production'
         publish-profile: ${{ secrets.SEC_AI }}  # Add your publish profile secret
         package: main.zip
