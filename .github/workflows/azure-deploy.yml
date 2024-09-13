@@ -29,7 +29,7 @@ jobs:
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'ebms-ai-demo'  # Replace with your Azure App Service name
+        app-name: 'aitestingdemoebms'  # Replace with your Azure App Service name
         slot-name: 'production'
-        publish-profile: ${{ secrets.MY_SEC }}  # Add your publish profile secret
+        publish-profile: ${{ secrets.SEC_AI }}  # Add your publish profile secret
         package: main.zip
