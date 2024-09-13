@@ -1,0 +1,35 @@
+name: Deploy Flask App to Azure Web App
+
+on:
+  push:
+    branches:
+      - main  # Trigger deploy on push to main branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.12.4'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Archive Flask app
+      run: zip -r main.zip .
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'ebms-ai-demo'  # Replace with your Azure App Service name
+        slot-name: 'production'
+        publish-profile: ${{ secrets.MY_SECRET }}  # Add your publish profile secret
+        package: main.zip
